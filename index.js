@@ -5,6 +5,7 @@ class PayTab {
 
     /**
      * @param config {
+     *     endpoint : { type : String }
      *     tran_type : { type: String },
      *     tran_class : { type : String },
      *     cart_currency : { type : String },
@@ -28,7 +29,7 @@ class PayTab {
     }
 
     _validateConfiguration() {
-        if (!this.config.tran_type || !this.config.tran_class || !this.config.cart_currency || !this.config.callback || !this.config.return) {
+        if (!this.config.endpoint ||!this.config.tran_type || !this.config.tran_class || !this.config.cart_currency || !this.config.callback || !this.config.return) {
             throw new this.ValidationError('the config not completed !');
         }
     }
@@ -41,7 +42,7 @@ class PayTab {
 
     _createHttpClient() {
         this.instance = axios.create({
-            baseURL: 'https://secure-egypt.paytabs.com'
+            baseURL: this.config.endpoint
         });
         this.instance.defaults.headers.common.Authorization = this.auth.server_key;
     }
